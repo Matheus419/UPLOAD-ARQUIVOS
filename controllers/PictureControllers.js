@@ -2,32 +2,43 @@ const Picture = require("../models/Picture")
 
 const fs = require("fs")
 
+// Função para criar uma nova imagem no banco de dados
 exports.create = async (req, res) =>{
     res.json("Ok!");
     
     try{
+        // Pega a informação do nome do arquivo enviado pela requisição
     const { name } = req.body
 
+    // Obtém o arquivo da req. (Via multer)
     const file = req.file
     
+    // Criar uma nova instância do modelo Picture com o nome da img e caminho 
     const picture = new Picture ({
         name,
         src: file.path,
     })
 
+    // Aqui envia para o banco ou seja salva a img no DB
     await picture.save();
-
+    
+    // Retorna a resposta com os dados da img salva
     res.json({picture, msg: "Imagem salva com sucesso!"})
-    } catch (error){
+    } catch (err){
+    // Caso tenha erro durante o processo, retorna a mensagem ao usuário
         res.status(500).json({ message: "Erro ao salvar!"})
         
     }
-    exports.findAll = async (req, res) => {
-        try {
-            const pictures = await Picture.find();
 
+    // Função para buscar todas as img no DB
+    exports.findAll = async  (req, res) => {
+        try {
+            // Busca todas img armazenadas no DB
+            const pictures = await Picture.find();
+            // Retorno todas img encontradas em formato de JSON
             res.json(pictures);
-        } catch (error) {
+        } catch (err) {
+            // Caso haja erro durante a busca, retorna mensagem ao usuário
             res.status(500).json ({ message: "Erro ao buscar!"})
         }
     }
