@@ -15,7 +15,7 @@ const dbPassword = process.env.DB_PASS;
 async function main() {
   await mongoose.connect(
     // Link do Mongo
-    `LinkMongo`
+    (`mongodb+srv://matheussenacsp:!password123@clusterapi.1j8mh.mongodb.net/?retryWrites=true&w=majority&appName=ClusterAPI`)
   );
   // Exibe ao usuario que realizou a conexão
   console.log("Conectou ao banco de dados!");
